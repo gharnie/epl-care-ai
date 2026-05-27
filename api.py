@@ -180,10 +180,13 @@ def predict(data: PatientData):
     input_dict = data.dict()
     input_df = pd.DataFrame([input_dict])
     input_df = input_df[feature_columns]
-
+    
     for col in input_df.columns:
         if input_df[col].dtype == 'object':
-            input_df[col] = input_df[col].astype('category').cat.codes
+            try:
+                input_df[col] = input_df[col].astype('category').cat.codes
+            except Exception:
+                input_df[col] = 0
 
     input_scaled = scaler.transform(input_df)
     prediction = model.predict(input_scaled)[0]
