@@ -2,12 +2,15 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import joblib
 
+import os
+
 app = Flask(__name__)
 
-model = joblib.load('epl_model.pkl')
-scaler = joblib.load('epl_scaler.pkl')
-feature_columns = joblib.load('feature_columns.pkl')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+model = joblib.load(os.path.join(BASE_DIR, 'epl_model.pkl'))
+scaler = joblib.load(os.path.join(BASE_DIR, 'epl_scaler.pkl'))
+feature_columns = joblib.load(os.path.join(BASE_DIR, 'feature_columns.pkl'))
 
 def identify_care_gaps(data):
     gaps = []
